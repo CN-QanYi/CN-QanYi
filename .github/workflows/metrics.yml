@@ -1,6 +1,5 @@
 name: Metrics
 on:
-  # 每天 0点 更新
   schedule: [{cron: "0 0 * * *"}]
   workflow_dispatch:
   push: {branches: ["master", "main"]}
@@ -11,7 +10,7 @@ jobs:
     permissions:
       contents: write
     steps:
-      # 1. 语言详细分析 (分析所有仓库)
+      # 1. 语言详细分析 (All-time)
       - name: Languages
         uses: lowlighter/metrics@latest
         with:
@@ -36,7 +35,7 @@ jobs:
           plugin_reactions: yes
           plugin_reactions_limit: 100
 
-      # 3. Issue/PR 跟进
+      # 3. Issue/PR 跟进 (All-time, 包含归档)
       - name: Followup
         uses: lowlighter/metrics@latest
         with:
@@ -45,6 +44,8 @@ jobs:
           base: ""
           plugin_followup: yes
           plugin_followup_indepth: yes
+          plugin_followup_archived: yes
+          plugin_followup_sections: user
 
       # 4. 置顶仓库
       - name: Pinned Repositories
